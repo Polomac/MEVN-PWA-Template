@@ -1,12 +1,22 @@
 @import './reset';
 @import './mediaQuery';
 
-$text: #777;
+$text: #666;
 $text-inverted: ghostwhite;
 $accent: crimson;
 $defBlue: dodgerblue;
 $bright: yellowgreen;
 
+a {
+  font-weight: 500;
+  transition: all 0.25s linear;
+  cursor: pointer;
+}
+
 a, a:visited {
   color: $text;
+}
+
+a:hover {
+  color: $defBlue;
 }
