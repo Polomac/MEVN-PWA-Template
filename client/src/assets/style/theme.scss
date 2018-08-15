@@ -1,0 +1,12 @@
+@import './reset';
+@import './mediaQuery';
+
+$text: #777;
+$text-inverted: ghostwhite;
+$accent: crimson;
+$defBlue: dodgerblue;
+$bright: yellowgreen;
+
+a, a:visited {
+  color: $text;
+}

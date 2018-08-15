@@ -1,0 +1,3 @@
+export default {
+  MUTATION_TEMPLATE_NAME: 'MUTATION_TEMPLATE_NAME',
+};
