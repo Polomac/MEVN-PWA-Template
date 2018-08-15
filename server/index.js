@@ -10,6 +10,8 @@ const app = express();
 mongoose.connect('mongodb://localhost:27017/books', { useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 
+// MIddleware
+app.use(express.static('public'));
 app.use(bodyParser.json());
 
 // Initialize routes
