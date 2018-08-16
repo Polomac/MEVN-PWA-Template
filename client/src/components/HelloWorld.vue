@@ -18,6 +18,6 @@ export default {
 @import '../assets/style/theme';
 
 h1 {
-  color: $accent;
+  color: $defBlue;
 }
 </style>
