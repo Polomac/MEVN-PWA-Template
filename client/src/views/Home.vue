@@ -1,17 +1,20 @@
 <template>
   <div class="home">
-    <HelloWorld msg="MEVN PWA Template"/>
+    <top msg="MEVN PWA Template"/>
+    <book-table></book-table>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue';
+import top from '@/components/Header.vue';
+import bookTable from '@/components/BookTable.vue';
 
 export default {
   name: 'home',
   components: {
-    HelloWorld,
+    top,
+    bookTable,
   },
 };
 </script>

@@ -20,3 +20,37 @@ a, a:visited {
 a:hover {
   color: $defBlue;
 }
+
+.red-ripple, .blue-ripple {
+  background-position: center;
+  transition: background 0.4s;
+}
+.red-ripple:hover {
+  background: lighten($accent, 5%) radial-gradient(circle, transparent 1%, $accent 1%) center/15000%;
+}
+.red-ripple:active {
+  background-color: lighten($accent, 10%);
+  background-size: 100%;
+  transition: background 0s;
+}
+
+.blue-ripple:hover {
+  background: lighten($defBlue, 5%) radial-gradient(circle, transparent 1%, $defBlue 1%) center/15000%;
+}
+.blue-ripple:active {
+  background-color: lighten($defBlue, 10%);
+  background-size: 100%;
+  transition: background 0s;
+}
+
+/* Button style */
+button {
+  border: none;
+  border-radius: 2px;
+  font-size: 16px;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: white;
+  box-shadow: 0 0 4px #999;
+  outline: none;
+}

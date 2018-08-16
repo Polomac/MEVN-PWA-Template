@@ -1,12 +1,12 @@
 <template>
-  <div class="hello">
+  <div class="header-wrapper">
     <h1>{{ msg }}</h1>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: 'Header',
   props: {
     msg: String,
   },
@@ -17,7 +17,14 @@ export default {
 <style scoped lang="scss">
 @import '../assets/style/theme';
 
+.header-wrapper {
+  display: flex;
+  background: $defBlue;
+  padding: 0 1em;
+  box-shadow: 0 0 4px rgba(0, 0, 0,0.4);
+}
+
 h1 {
-  color: $defBlue;
+  color: $text-inverted;
 }
 </style>
