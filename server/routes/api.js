@@ -5,7 +5,10 @@ const router = express.Router();
 
 // Request examples
 router.get('/books', (req, res) => {
-  res.send('GET');
+  Book.find({})
+  .then((books)=> {
+    res.send(books);
+  });
 });
 
 router.post('/books', (req, res) => {

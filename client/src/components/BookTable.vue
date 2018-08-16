@@ -3,12 +3,14 @@
     <div class="book-table">
       <h3 class="book-table-title">Book table</h3>
     </div>
-    <div class="table-row">
+    <div class="table-row"
+         v-for="book in books"
+         :key="book.id">
       <div class="table-cell">
-        Title:
+        Title: {{book.title}}
       </div>
       <div class="table-cell">
-        Author:
+        Author: {{book.author}}
       </div>
       <div class="table-cell">
         <button class="delete-btn red-ripple">
@@ -18,17 +20,47 @@
         </button>
       </div>
     </div>
-    <div class="add-book blue-ripple">
+    <div class="add-book blue-ripple"
+         @click="showAddModal">
       <i class="material-icons">
         add
       </i>
     </div>
+    <add-book ::isModalOpen.sync="isModalOpen"></add-book>
   </div>
 </template>
 
 <script>
+import Api from '../api/index';
+import addBook from './AddBook.vue';
+
 export default {
   name: 'BookTable',
+  components: {
+    addBook,
+  },
+  data() {
+    return {
+      books: [],
+      isModalOpen: false,
+    };
+  },
+  methods: {
+    async getPosts() {
+      const response = await Api.getBooks();
+      this.books = response.data;
+    },
+    showAddModal() {
+      this.isModalOpen = true;
+      this.$modal.show('AddBook');
+    },
+  },
+  mounted() {
+    this.getPosts();
+  },
+  updated() {
+    this.getPosts();
+  },
 };
 </script>
 
@@ -62,11 +94,14 @@ export default {
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
+  margin-bottom: 0.5em;
 }
 
 .table-cell {
   padding: 1em;
   border-right: 1px solid lightgray;
+  width: 30%;
+  text-align: left;
 
   &:last-child {
     border-right: none;

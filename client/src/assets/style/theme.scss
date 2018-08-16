@@ -21,7 +21,7 @@ a:hover {
   color: $defBlue;
 }
 
-.red-ripple, .blue-ripple {
+.red-ripple, .blue-ripple, .green-ripple {
   background-position: center;
   transition: background 0.4s;
 }
@@ -39,6 +39,15 @@ a:hover {
 }
 .blue-ripple:active {
   background-color: lighten($defBlue, 10%);
+  background-size: 100%;
+  transition: background 0s;
+}
+
+.green-ripple:hover {
+  background: lighten($bright, 5%) radial-gradient(circle, transparent 1%, $bright 1%) center/15000%;
+}
+.green-ripple:active {
+  background-color: lighten($bright, 10%);
   background-size: 100%;
   transition: background 0s;
 }

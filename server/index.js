@@ -1,6 +1,8 @@
 import express from 'express';
 import bodyParser from'body-parser';
 import mongoose from 'mongoose';
+import cors from 'cors';
+import morgan from 'morgan';
 import routes from './routes/api';
 
 const port = 5000;
@@ -13,6 +15,9 @@ mongoose.Promise = global.Promise;
 // MIddleware
 app.use(express.static('public'));
 app.use(bodyParser.json());
+app.use(morgan('combined'));
+app.use(cors());
+
 
 // Initialize routes
 app.use('/api/', routes);
