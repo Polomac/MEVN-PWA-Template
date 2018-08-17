@@ -12,27 +12,39 @@
       </i>
     </h3>
     <div class="add-book-form clearfix">
-      <label for="Title">Title</label>
+      <label for="Title"
+             class="field-label"
+             :class="{ 'set-label': setLabelVisible==='title' && book.title }">Title</label>
       <input type="text"
              v-model="book.title"
              required
              class="book-input"
              name="Title"
-             placeholder="Title">
-      <label for="Author">Author</label>
+             placeholder="Title"
+             v-validate="'required'"
+             @input="setLabel('title')">
+      <span class="validate-message">{{errors.first('Title')}}</span>
+      <label for="Author"
+             class="field-label"
+             :class="{ 'set-label': setLabelVisible==='author' && book.author }">Author</label>
       <input type="text"
              v-model="book.author"
              required
              class="book-input"
              name="Author"
-             placeholder="Author">
-      <div class="add-btn green-ripple clearfix"
-         @click="addBook">
+             placeholder="Author"
+             v-validate="'required'"
+             @click="setLabel('author')">
+      <span class="validate-message">{{errors.first('Author')}}</span>
+      <button class="add-btn green-ripple clearfix"
+              :class="{ 'disabled':hasError }"
+              @click="addBook"
+              :disabled="hasError">
         <i class="material-icons">
           add
         </i>
         Add
-      </div>
+      </button>
     </div>
   </div>
 </modal>
@@ -46,7 +58,19 @@ export default {
   data() {
     return {
       book: {},
+      setLabelVisible: null,
     };
+  },
+  computed: {
+    hasError() {
+      console.log(this.book);
+      if (this.errors.has('Title') || this.errors.has('Author') || !this.book.title || !this.book.author) {
+        return true;
+      // eslint-disable-next-line
+      } else {
+        return false;
+      }
+    },
   },
   methods: {
     beforeOpen() {
@@ -61,8 +85,9 @@ export default {
           this.book = {};
         });
     },
-  },
-  beforeCreate() {
+    setLabel(param) {
+      this.setLabelVisible = param;
+    },
   },
 };
 </script>
@@ -113,6 +138,30 @@ export default {
   label {
     padding: 0 0.5em;
     font-size: 0.875em;
+  }
+}
+
+.validate-message {
+  color: $accent;
+  font-weight: 700;
+  font-size: 0.675em;
+  margin: -1em 0 2em 1em;
+  display: block;
+}
+
+.disabled {
+  background: gray !important;
+}
+
+.field-label {
+  font-weight: 700;
+  color: transparent;
+  transform: translateY(-10px);
+  transition: all 0.5s linear;
+
+  &.set-label {
+    transform: translateY(10px);
+    color: $text;
   }
 }
 

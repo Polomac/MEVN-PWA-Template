@@ -1,5 +1,14 @@
 <template>
   <div class="book-table-wrapper">
+    <div class="message"
+         v-if="statusMessage"
+         :class="{ 'success': statusMessage.status, 'fail': !statusMessage.status,  }">
+      <span>{{statusMessage.text}}</span>
+      <i class="material-icons"
+         @click="resetMessage">
+        close
+      </i>
+    </div>
     <div class="book-table">
       <h3 class="book-table-title">Book table</h3>
     </div>
@@ -7,10 +16,10 @@
          v-for="book in books"
          :key="book.id">
       <div class="table-cell">
-        Title: {{book.title}}
+        <span class="cell-title">Title: </span>{{book.title}}
       </div>
       <div class="table-cell">
-        Author: {{book.author}}
+        <span class="cell-title">Author: </span>{{book.author}}
       </div>
       <div class="table-cell">
         <button class="delete-btn red-ripple">
@@ -45,6 +54,16 @@ export default {
       isModalOpen: false,
     };
   },
+  computed: {
+    statusMessage() {
+      this.getPosts();
+      // eslint-disable-next-line
+      setTimeout(() => {
+        this.$store.commit('RESET_STATUS_MESSAGE');
+      }, 3000);
+      return this.$store.state.statusMessage;
+    },
+  },
   methods: {
     async getPosts() {
       const response = await Api.getBooks();
@@ -54,11 +73,11 @@ export default {
       this.isModalOpen = true;
       this.$modal.show('AddBook');
     },
+    resetMessage() {
+      this.$store.commit('RESET_STATUS_MESSAGE');
+    },
   },
   mounted() {
-    this.getPosts();
-  },
-  updated() {
     this.getPosts();
   },
 };
@@ -66,6 +85,34 @@ export default {
 
 <style lang="scss" scoped>
 @import '../assets/style/theme';
+
+.message {
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: 500;
+  color: $text-inverted;
+  background: $bright;
+  border-radius: 2px;
+  padding: 1em;
+  display: flex;
+  align-items: center;
+
+  i {
+    margin: 0 0 0 1em;
+    padding: 0;
+    cursor: pointer;
+  }
+}
+
+.fail {
+  background: $accent;
+}
+
+.success {
+  background: $bright;
+}
 
 .book-table-wrapper {
   padding: 0 0.5em;
@@ -110,6 +157,10 @@ export default {
   }
 }
 
+.cell-title {
+  font-weight: 500;
+}
+
 .delete-btn {
   background: $accent;
   margin: 0;
@@ -127,7 +178,7 @@ export default {
   padding: 0.5em;
   cursor: pointer;
   position: fixed;
-  top: 30%;
+  top: 6em;
   right: 0.5em;
 
   @include mQMin(460px) {

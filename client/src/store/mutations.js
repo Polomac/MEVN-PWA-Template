@@ -5,4 +5,8 @@ export default {
     // eslint-disable-next-line
     state.stateTemplate = payload;
   },
+  [types.RESET_STATUS_MESSAGE](state) {
+    // eslint-disable-next-line
+    state.statusMessage = '';
+  },
 };
