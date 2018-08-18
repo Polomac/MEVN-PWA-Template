@@ -22,7 +22,16 @@
         <span class="cell-title">Author: </span>{{book.author}}
       </div>
       <div class="table-cell">
-        <button class="delete-btn red-ripple">
+        <button class="edit-btn blue-ripple"
+                @click="showEditModal(book)">
+          <i class="material-icons">
+            edit
+          </i> Edit
+        </button>
+      </div>
+      <div class="table-cell">
+        <button class="delete-btn red-ripple"
+                @click="deleteBook(book._id)">
           <i class="material-icons">
             delete
           </i>
@@ -35,18 +44,21 @@
         add
       </i>
     </div>
-    <add-book ::isModalOpen.sync="isModalOpen"></add-book>
+    <add-book ></add-book>
+    <edit-book></edit-book>
   </div>
 </template>
 
 <script>
 import Api from '../api/index';
 import addBook from './AddBook.vue';
+import editBook from './EditBook.vue';
 
 export default {
   name: 'BookTable',
   components: {
     addBook,
+    editBook,
   },
   data() {
     return {
@@ -70,11 +82,20 @@ export default {
       this.books = response.data;
     },
     showAddModal() {
-      this.isModalOpen = true;
+      console.log('show add');
       this.$modal.show('AddBook');
+    },
+    showEditModal(book) {
+      this.$modal.show('EditBook', { book });
     },
     resetMessage() {
       this.$store.commit('RESET_STATUS_MESSAGE');
+    },
+    deleteBook(id) {
+      return Api.deleteBook(id)
+        .then(() => {
+          this.getPosts();
+        });
     },
   },
   mounted() {
@@ -87,7 +108,7 @@ export default {
 @import '../assets/style/theme';
 
 .message {
-  position: absolute;
+  position: fixed;
   top: 5%;
   left: 50%;
   transform: translateX(-50%);
@@ -149,11 +170,25 @@ export default {
   border-right: 1px solid lightgray;
   width: 30%;
   text-align: left;
+  flex-grow: 2;
 
   &:last-child {
     border-right: none;
-    flex-grow: 2;
     text-align: right;
+    max-width: 5em;
+  }
+
+  &:nth-last-child(2) {
+    width: 5em;
+    align-content: flex-end;
+    text-align: right;
+    border-right: none;
+
+    i {
+      vertical-align: middle;
+      line-height: 1em;
+      margin-top:-0.125em;
+    }
   }
 }
 
@@ -164,8 +199,14 @@ export default {
 .delete-btn {
   background: $accent;
   margin: 0;
-  padding: 0;
   padding: 0.5em;
+}
+
+.edit-btn {
+  background: $defBlue;
+  padding: 0.875em 1em 0.875em 0.875em;
+  font-size: 0.875em;
+  font-weight: 600;
 }
 
 .add-book {

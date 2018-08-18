@@ -1,49 +1,49 @@
 <template>
-<modal  name="AddBook"
+<modal  name="EditBook"
         @before-open="beforeOpen"
         height="auto"
         scrollable>
   <div class="add-book-wrapper">
     <h3 class="modal-title">
-      <span>Add book</span>
+      <span>Edit book</span>
       <i class="material-icons close-modal"
-         @click="hideAddModal">
+         @click="hideEditModal">
         close
       </i>
     </h3>
     <div class="add-book-form clearfix">
       <label for="Title"
-             class="field-label"
-             :class="{ 'set-label': setLabelVisibleTitle }">Title</label>
+             class="field-label">
+        Title
+      </label>
       <input type="text"
              v-model="book.title"
              required
              class="book-input"
              name="Title"
-             placeholder="Title"
-             v-validate="'required'"
-             @input="setLabelTitle">
+             placeholder="book.title"
+             v-validate="'required'">
       <span class="validate-message">{{errors.first('Title')}}</span>
       <label for="Author"
-             class="field-label"
-             :class="{ 'set-label': setLabelVisibleAuthor }">Author</label>
+             class="field-label">
+        Author
+      </label>
       <input type="text"
              v-model="book.author"
              required
              class="book-input"
              name="Author"
-             placeholder="Author"
-             v-validate="'required'"
-             @input="setLabelAuthor">
+             placeholder="book.author"
+             v-validate="'required'">
       <span class="validate-message">{{errors.first('Author')}}</span>
       <button class="add-btn green-ripple clearfix"
               :class="{ 'disabled':hasError }"
-              @click="addBook"
+              @click="updateBook"
               :disabled="hasError">
         <i class="material-icons">
           add
         </i>
-        Add
+        Update
       </button>
     </div>
   </div>
@@ -54,12 +54,10 @@
 import Api from '../api/index';
 
 export default {
-  name: 'AddBook',
+  name: 'EditBook',
   data() {
     return {
       book: {},
-      setLabelVisibleTitle: false,
-      setLabelVisibleAuthor: false,
     };
   },
   computed: {
@@ -73,23 +71,16 @@ export default {
     },
   },
   methods: {
-    beforeOpen() {
+    beforeOpen(event) {
+      this.book = Object.assign({}, event.params.book);
     },
-    hideAddModal() {
-      this.$modal.hide('AddBook');
+    hideEditModal() {
+      this.$modal.hide('EditBook');
     },
-    addBook() {
-      this.hideAddModal();
-      return Api.postBook(this.book)
-        .then(() => {
-          this.book = {};
-        });
-    },
-    setLabelTitle() {
-      this.setLabelVisibleTitle = true;
-    },
-    setLabelAuthor() {
-      this.setLabelVisibleAuthor = true;
+    updateBook() {
+      this.hideEditModal();
+      console.log(this.book);
+      return Api.updateBook(this.book);
     },
   },
 };
@@ -159,13 +150,8 @@ export default {
 .field-label {
   font-weight: 700;
   color: transparent;
-  transform: translateY(-10px);
   transition: all 0.5s linear;
-
-  &.set-label {
-    transform: translateY(10px);
-    color: $text;
-  }
+  color: $text;
 }
 
 .add-btn {
@@ -174,13 +160,15 @@ export default {
   padding: 0;
   padding: 0.5em;
   color: $text-inverted;
-  width: 6em;
+  min-width: 7em;
   box-shadow: 0 0 1px rgba(0, 0, 0, 0.6);
   float: right;
   display: flex;
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
+  font-size: 0.875em;
+  font-weight: 600;
 }
 </style>
 

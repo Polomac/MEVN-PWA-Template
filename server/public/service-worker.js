@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.4.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.0e9bca76216c6bbd3352b2e90c6ca408.js"
+  "/precache-manifest.102b09628173fab79c2f02d9ccca86ea.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "mevn-client"});

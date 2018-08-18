@@ -3,7 +3,9 @@ import Book from '../models/books';
 
 const router = express.Router();
 
-// Request examples
+// Request routes
+
+// GET All books
 router.get('/books', (req, res) => {
   Book.find({})
   .then((books)=> {
@@ -11,6 +13,7 @@ router.get('/books', (req, res) => {
   });
 });
 
+// POST new book
 router.post('/books', (req, res) => {
   // Creating and saving new instance
   Book.create(req.body)
@@ -24,15 +27,32 @@ router.post('/books', (req, res) => {
   });
 });
 
-router.patch('/books/:id', (req, res) => {
-  res.send('PATCH');
+// UPDATE
+router.put('/books/:id', function(req, res){
+  // Finding and updating
+  Book.findByIdAndUpdate({_id: req.body.params._id}, req.body.params)
+    .then(() => {
+      res.send('Success');
+    })
+    .catch((e) => {
+      res.status(418).send({
+        error: req.params,
+      })
+    });
 });
 
+// DELETE
 router.delete('/books/:id', (req, res) => {
-  res.send('DELETE');
+  Book.remove({
+    _id: req.params.id
+  })
+  .then(() => {
+    res.send('Success')
+  })
+  .catch((e) => {
+    res.status(418).send({error: e.message})
+  });
 });
 
 // Exporting router
 export default router;
-
-
