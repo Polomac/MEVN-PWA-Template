@@ -41,20 +41,21 @@ export default {
   },
   updateBook(params) {
     console.log(params);
+    // eslint-disable-next-line
     return http.put(`books/${params._id}`, {
       params,
     })
-    .then(() => {
-      state.statusMessage = {
-        text: 'Update succesful!',
-        status: true,
-      };
-    })
-    .catch((e) => {
-      state.statusMessage = {
-        text: e.message,
-        status: false,
-      };
-    });
-  }
+      .then(() => {
+        state.statusMessage = {
+          text: 'Update succesful!',
+          status: true,
+        };
+      })
+      .catch((e) => {
+        state.statusMessage = {
+          text: e.message,
+          status: false,
+        };
+      });
+  },
 };
